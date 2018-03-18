@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat with Friends</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+</head>
+<body>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var socket = io.connect('http://127.0.0.1:5000');
+		socket.on('connect',function(){
+			socket.send('User connection established!!');
+		});	
+		socket.on('message',function(msg){
+			$("#umsg").append('<li>'+msg+'</li>');
+			console.log('Message is received on the other end!!');
+		});
+		$('#sendbtn').on('click',function(){
+			socket.send($('#imsg').val());
+			$('imsg').val('');
+		});
+	});
+	</script>
+	<ul id="umsg"></ul>
+	<input type="text" id="imsg">
+	<button id="sendbtn">Send</button>
+</body>
+</html>
